@@ -52,7 +52,7 @@ sub save_param {
     my $sync_period = $app->param('sync_period');
 
     if ($sync_period_status) {
-        unless ( $sync_period && $sync_period =~ m/^\d$/ ) {
+        unless ( $sync_period && $sync_period =~ m/^\d+$/ ) {
             return $app->error(
                 'サーバー配信日時の配信間隔が不正です。1 以上の整数値を設定してください。'
             );
