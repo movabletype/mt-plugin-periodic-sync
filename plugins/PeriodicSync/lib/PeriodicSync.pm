@@ -6,13 +6,15 @@ use utf8;
 use MT::Util qw( ts2epoch epoch2ts );
 use MT::TheSchwartz::Job;
 
+my $work;
+
 sub override {
     if ( !MT->component('Sync') ) {
         return;
     }
 
     require MT::Worker::ContentsSync;
-    my $work = \&MT::Worker::ContentsSync::work;
+    $work = \&MT::Worker::ContentsSync::work;
 
     no warnings 'redefine';
     *MT::Worker::ContentsSync::work = \&_work;
