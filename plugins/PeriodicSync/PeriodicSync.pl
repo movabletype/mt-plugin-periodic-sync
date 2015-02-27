@@ -30,6 +30,8 @@ my $plugin = __PACKAGE__->new(
         init_app => '$PeriodicSync::PeriodicSync::override',
 
         registry => {
+            list_properties => { sync_setting => \&_list_props, },
+
             applications => {
                 cms => {
                     callbacks => {
@@ -48,6 +50,38 @@ my $plugin = __PACKAGE__->new(
     }
 );
 MT->add_plugin($plugin);
+
+sub _list_props {
+    return +{
+        sync_period => {
+            label     => '定期配信間隔',
+            order     => 300,
+            display   => 'default',
+            bulk_html => sub {
+                my $prop = shift;
+                my ($objs) = @_;
+
+                my $blog_id = MT->app->blog ? MT->app->blog->id : 0;
+                my $scope = "blog:$blog_id";
+
+                my @periods;
+                for my $obj (@$objs) {
+                    my $sync_period_status
+                        = $plugin->get_config_value( 'sync_period_status',
+                        $scope, $obj->id );
+                    my $sync_period
+                        = $plugin->get_config_value( 'sync_period', $scope,
+                        $obj->id );
+
+                    push @periods,
+                        ( $sync_period_status ? "$sync_period 分" : '-' );
+                }
+
+                return @periods;
+            },
+        },
+    };
+}
 
 sub get_config_value {
     my $this = shift;
