@@ -14,6 +14,13 @@ __INSERT__
       <div class="option"><input type="checkbox" id="sync-period-status" name="sync_period_status" value="1" <mt:if name="sync_period_status">checked="checked"</mt:if> /> <input type="text" id="sync-period" class="text num" name="sync_period" value="<mt:var name="sync_period">" /> 時間毎に実行する。</div>
 
 <mt:setvarblock name="jq_js_include" append="1">
+jQuery('[name="sync_period_status"]').change(function() {
+  switch_sync_type(jQuery(this));
+});
+jQuery('[name="sync_period"]').change(function() {
+  switch_sync_type(jQuery(this));
+});
+
 var changeSyncPeriodStatus = function() {
   if (jQuery('input#sync-period-status').is(':checked')) {
     jQuery('input#sync-period').removeAttr('disabled');
