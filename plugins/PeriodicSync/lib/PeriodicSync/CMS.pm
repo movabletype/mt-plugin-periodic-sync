@@ -79,6 +79,8 @@ sub save_param {
         $plugin->set_config_value( 'sync_period', $sync_period, $scope,
             $sync_setting->id );
     }
+
+    return 1;
 }
 
 1;
