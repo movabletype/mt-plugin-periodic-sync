@@ -38,6 +38,8 @@ my $plugin = __PACKAGE__->new(
                         'template_param.cfg_contents_sync' =>
                             '$PeriodicSync::PeriodicSync::CMS::load_param',
                         'cms_pre_save.sync_setting' =>
+                            '$PeriodicSync::PeriodicSync::CMS::check_param',
+                        'cms_post_save.sync_setting' =>
                             '$PeriodicSync::PeriodicSync::CMS::save_param',
                     },
                 },
@@ -46,5 +48,109 @@ my $plugin = __PACKAGE__->new(
     }
 );
 MT->add_plugin($plugin);
+
+sub get_config_value {
+    my $this = shift;
+    my ( $var, $scope, $setting_id ) = @_;
+
+    my $hash = $this->SUPER::get_config_value( $var, $scope );
+
+    if ( !$this->_multiple_sync ) {
+        return $hash;
+    }
+
+    if ( ref $hash ne 'HASH' ) {
+        $this->_initialize_setting($scope);
+        $hash = $this->SUPER::get_config_value( $var, $scope );
+    }
+
+    if ( $setting_id && exists $hash->{$setting_id} ) {
+        return $hash->{$setting_id};
+    }
+    else {
+        return $this->_defaults->{$var};
+    }
+}
+
+sub get_config_value_from_job {
+    my ( $this, $var, $job ) = @_;
+
+    my ( $scope, $setting_id );
+    if ( $this->_multiple_sync ) {
+        my $sync_setting = $this->get_sync_setting($job);
+        $scope      = 'blog:' . $sync_setting->blog_id;
+        $setting_id = $sync_setting->id;
+    }
+    else {
+        $scope = 'blog:' . $job->uniqkey;
+    }
+
+    return $this->get_config_value( $var, $scope, $setting_id );
+}
+
+sub set_config_value {
+    my $this = shift;
+    my ( $var, $val, $scope, $setting_id ) = @_;
+
+    if ( !$this->_multiple_sync ) {
+        return $this->SUPER::set_config_value(@_);
+    }
+
+    my $hash = $this->SUPER::get_config_value( $var, $scope );
+
+    if ( ref $hash ne 'HASH' ) {
+        $this->_initialize_setting($scope);
+        $hash = $this->SUPER::get_config_value( $var, $scope );
+    }
+
+    $hash->{$setting_id} = $val;
+    $this->SUPER::set_config_value( $var, $hash, $scope );
+}
+
+sub get_sync_setting {
+    my ( $this, $job ) = @_;
+
+    require MT::SyncSetting;
+
+    if ( $this->_multiple_sync ) {
+        return MT::SyncSetting->load( $job->uniqkey );
+    }
+    else {
+        return MT::SyncSetting->load( { blog_id => $job->uniqkey } );
+    }
+}
+
+sub _multiple_sync {
+    my $sync = MT->component('Sync');
+    return ( $sync && $sync->version >= 1.012 ) ? 1 : 0;
+}
+
+sub _defaults {
+    my $this = shift;
+    return $this->settings->defaults;
+}
+
+sub _initialize_setting {
+    my ( $this, $scope ) = @_;
+    my ($blog_id) = $scope =~ m/(\d+)$/;
+
+    my $old_sync_period_status
+        = $this->SUPER::get_config_value( 'sync_period_status', $scope );
+    my $old_sync_period
+        = $this->SUPER::get_config_value( 'sync_period', $scope );
+
+    require MT::SyncSetting;
+    my @settings = MT::SyncSetting->load( { blog_id => $blog_id } );
+    my @setting_ids = map { $_->id } @settings;
+
+    my %sync_period_status_hash
+        = map { $_ => $old_sync_period_status } @setting_ids;
+    my %sync_period_hash = map { $_ => $old_sync_period } @setting_ids;
+
+    $this->SUPER::set_config_value( 'sync_period_status',
+        \%sync_period_status_hash, $scope );
+    $this->SUPER::set_config_value( 'sync_period', \%sync_period_hash,
+        $scope );
+}
 
 1;

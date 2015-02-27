@@ -32,20 +32,20 @@ __MTML__
 sub load_param {
     my ( $cb, $app, $param, $tmpl ) = @_;
 
-    my $plugin = MT->component('PeriodicSync');
-    my $scope  = 'blog:' . $app->blog->id;
+    my $plugin     = MT->component('PeriodicSync');
+    my $scope      = 'blog:' . $app->blog->id;
+    my $setting_id = $app->param('id');
 
     $param->{sync_period_status}
-        = $plugin->get_config_value( 'sync_period_status', $scope );
+        = $plugin->get_config_value( 'sync_period_status', $scope,
+        $setting_id );
     $param->{sync_period}
-        = $plugin->get_config_value( 'sync_period', $scope );
+        = $plugin->get_config_value( 'sync_period', $scope, $setting_id );
 
     return 1;
 }
 
-# Save parameters "sync_period_status" and "sync_period".
-# An error occurs when "sync_period" is not positive integer.
-sub save_param {
+sub check_param {
     my ( $cb, $app, $sync_setting, $original ) = @_;
 
     my $sync_period_status = $app->param('sync_period_status') ? 1 : undef;
@@ -59,16 +59,26 @@ sub save_param {
         }
     }
 
+    return 1;
+}
+
+# Save parameters "sync_period_status" and "sync_period".
+# An error occurs when "sync_period" is not positive integer.
+sub save_param {
+    my ( $cb, $app, $sync_setting, $original ) = @_;
+
+    my $sync_period_status = $app->param('sync_period_status') ? 1 : undef;
+    my $sync_period = $app->param('sync_period');
+
     my $plugin = MT->component('PeriodicSync');
     my $scope  = 'blog:' . $app->blog->id;
 
     $plugin->set_config_value( 'sync_period_status', $sync_period_status,
-        $scope );
+        $scope, $sync_setting->id );
     if ($sync_period_status) {
-        $plugin->set_config_value( 'sync_period', $sync_period, $scope );
+        $plugin->set_config_value( 'sync_period', $sync_period, $scope,
+            $sync_setting->id );
     }
-
-    return 1;
 }
 
 1;

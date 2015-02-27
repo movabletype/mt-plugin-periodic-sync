@@ -34,11 +34,11 @@ sub _work {
     }
 
     my $plugin = MT->component('PeriodicSync');
-    my $scope  = 'blog:' . $job->uniqkey;
-
+    my $sync_setting = $plugin->get_sync_setting($job) or return;
     my $sync_period_status
-        = $plugin->get_config_value( 'sync_period_status', $scope );
-    my $sync_period = $plugin->get_config_value( 'sync_period', $scope );
+        = $plugin->get_config_value_from_job( 'sync_period_status', $job );
+    my $sync_period
+        = $plugin->get_config_value_from_job( 'sync_period', $job );
 
     # Do nothing when sync_period is invalid.
     unless ( $sync_period_status
@@ -47,10 +47,6 @@ sub _work {
     {
         return;
     }
-
-    require MT::SyncSetting;
-    my $sync_setting = MT::SyncSetting->load( { blog_id => $job->uniqkey } )
-        or return;
 
     my $epoch = ts2epoch( undef, $sync_setting->schedule_date );
     $epoch += $sync_period * 60 * 60;
