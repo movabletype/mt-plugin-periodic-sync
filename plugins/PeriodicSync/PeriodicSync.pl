@@ -74,7 +74,9 @@ sub _list_props {
                         $obj->id );
 
                     push @periods,
-                        ( $sync_period_status ? "$sync_period 分" : '-' );
+                        ( $sync_period_status
+                        ? "$sync_period 分"
+                        : '(定期配信しない)' );
                 }
 
                 return @periods;
