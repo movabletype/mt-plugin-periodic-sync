@@ -62,7 +62,7 @@ sub _list_props {
                 my ($objs) = @_;
 
                 my $blog_id = MT->app->blog ? MT->app->blog->id : 0;
-                my $scope = "blog:$blog_id";
+                my $scope   = "blog:$blog_id";
 
                 my @periods;
                 for my $obj (@$objs) {
@@ -178,7 +178,7 @@ sub _initialize_setting {
         = $this->SUPER::get_config_value( 'sync_period', $scope );
 
     require MT::SyncSetting;
-    my @settings = MT::SyncSetting->load( { blog_id => $blog_id } );
+    my @settings    = MT::SyncSetting->load( { blog_id => $blog_id } );
     my @setting_ids = map { $_->id } @settings;
 
     my %sync_period_status_hash
