@@ -2,6 +2,7 @@ package PeriodicSync;
 use strict;
 use warnings;
 use utf8;
+use JSON;
 
 use MT::Util qw( ts2epoch epoch2ts );
 use MT::TheSchwartz::Job;
@@ -23,6 +24,9 @@ sub override {
 sub _work {
     my ( $class, $job ) = @_;
     $work->( $class, $job );
+
+    my $job_arg = $job->arg ? JSON::decode_json( $job->arg ) : {};
+    return if ( $job_arg->{trigger} && $job_arg->{trigger} eq 'SyncNow' );
 
     # Do nothing when an error occurs.
     if (MT::TheSchwartz::Job->exist(
