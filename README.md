@@ -4,6 +4,12 @@
 
 ![スクリーンショット](https://github.com/masiuchi/mt-plugin-periodic-sync/raw/master/ScreenShot.png)
 
+## ダウンロード
+
+* [バージョン 0.06 (2019/09/06)](https://github.com/masiuchi/mt-plugin-periodic-sync/archive/0.06.zip)
+
+[更新履歴](https://github.com/masiuchi/mt-plugin-periodic-sync/releases)
+
 ## 動作確認環境
 
 * MT6 クラウド
