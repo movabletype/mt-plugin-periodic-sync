@@ -56,7 +56,7 @@ sub check_param {
     my ( $cb, $app, $sync_setting, $original ) = @_;
 
     my $sync_period_status = $app->param('sync_period_status') ? 1 : undef;
-    my $sync_period = $app->param('sync_period');
+    my $sync_period        = $app->param('sync_period');
 
     if ($sync_period_status) {
         unless ( $sync_period && $sync_period =~ m/^\d+$/ ) {
@@ -75,7 +75,7 @@ sub save_param {
     my ( $cb, $app, $sync_setting, $original ) = @_;
 
     my $sync_period_status = $app->param('sync_period_status') ? 1 : undef;
-    my $sync_period = $app->param('sync_period');
+    my $sync_period        = $app->param('sync_period');
 
     my $plugin = MT->component('PeriodicSync');
     my $scope  = 'blog:' . $app->blog->id;
