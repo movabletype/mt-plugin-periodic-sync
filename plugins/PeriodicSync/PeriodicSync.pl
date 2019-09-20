@@ -10,9 +10,9 @@ my $plugin = __PACKAGE__->new(
         id      => 'PeriodicSync',
         version => 0.07,
 
-        author_name => 'Masahiro Iuchi',
-        author_link => 'https://github.com/masiuchi',
-        plugin_link => 'https://github.com/masiuchi/mt-plugin-periodic-sync',
+        author_name => 'Six Apart Ltd.',
+        author_link => 'https://www.sixapart.jp',
+        plugin_link => 'https://github.com/movabletype/mt-plugin-periodic-sync',
         description =>
             '<__trans phrase="Add periodic sync option to contents sync function.">',
 
