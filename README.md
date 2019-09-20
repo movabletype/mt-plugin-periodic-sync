@@ -16,6 +16,12 @@
 * MT6 クラウド
 * MT7 クラウド
 
+## フィードバック
+
+本プラグインは Movable Type 製品サポートの対象外となります。 不具合・ご要望は GitHub リポジトリの Issues の方までご連絡ください。
+
+https://github.com/movabletype/mt-plugin-periodic-sync/issues
+
 ## ライセンス
 
 The MIT License (MIT)
