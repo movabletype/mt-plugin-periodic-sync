@@ -2,14 +2,14 @@
 
 サーバー配信を1時間単位で定期実行可能にします。
 
-![スクリーンショット](https://github.com/masiuchi/mt-plugin-periodic-sync/raw/master/ScreenShot.png)
+![スクリーンショット](https://github.com/movabletype/mt-plugin-periodic-sync/raw/master/ScreenShot.png)
 
 ## ダウンロード
 
-* [バージョン 0.07 (2019/09/07)](https://github.com/masiuchi/mt-plugin-periodic-sync/archive/0.07.zip)
-* [バージョン 0.06 (2019/09/06)](https://github.com/masiuchi/mt-plugin-periodic-sync/archive/0.06.zip)
+* [バージョン 0.07 (2019/09/07)](https://github.com/movabletype/mt-plugin-periodic-sync/archive/0.07.zip)
+* [バージョン 0.06 (2019/09/06)](https://github.com/movabletype/mt-plugin-periodic-sync/archive/0.06.zip)
 
-[更新履歴](https://github.com/masiuchi/mt-plugin-periodic-sync/releases)
+[更新履歴](https://github.com/movabletype/mt-plugin-periodic-sync/releases)
 
 ## 動作確認環境
 
@@ -20,7 +20,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2015,2019 Masahiro Iuchi
+Copyright (c) 2015,2019 Six Apart Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
