@@ -14,15 +14,20 @@ sub add_form {
 __INSERT__
 
     my $mtml;
-    if ( MT->version_number >= 7 ) {
-        $mtml = <<'__MT7__';
+    if ((MT->config->AdminThemeId || '') eq '') {
+        if (MT->version_number >= 7) {
+            $mtml = <<'__MT7__';
       <div class="option mt-2"><div class="custom-control custom-checkbox"><input type="checkbox" id="sync-period-status" class="custom-control-input" name="sync_period_status" value="1" <mt:if name="sync_period_status">checked="checked"</mt:if> /> <label class="custom-control-label" for="sync-period-status"><input type="text" id="sync-period" class="text num w-25" name="sync_period" value="<mt:var name="sync_period">" /> 時間毎に実行する。</label></div></div>
 __MT7__
-    }
-    else {
-        $mtml = <<'__MT6__';
+        } else {
+            $mtml = <<'__MT6__';
       <div class="option"><input type="checkbox" id="sync-period-status" name="sync_period_status" value="1" <mt:if name="sync_period_status">checked="checked"</mt:if> /> <input type="text" id="sync-period" class="text num" name="sync_period" value="<mt:var name="sync_period">" /> 時間毎に実行する。</div>
 __MT6__
+        }
+    } else {
+        $mtml = <<'__ADMIN202X__';
+      <div class="mt-2 option form-inline"><div class="custom-control form-check"><input type="checkbox" name="sync_period_status" id="sync-period-status" value="1"<mt:if name="sync_period_status"> checked="checked"</mt:if> class="form-check-input cb" /><label class="d-block form-check-label" for="sync-period-status"><input type="text" id="sync-period" class="form-control text num w-25" name="sync_period" value="<mt:var name="sync_period">" /> 時間毎に実行する。</label></div></div>
+__ADMIN202X__
     }
 
     $mtml .= <<'__JS__';
