@@ -8,7 +8,7 @@ use base qw( MT::Plugin );
 my $plugin = __PACKAGE__->new(
     {   name    => 'PeriodicSync',
         id      => 'PeriodicSync',
-        version => 0.1,
+        version => 0.1.1,
 
         author_name => 'Six Apart Ltd.',
         author_link => 'https://www.sixapart.jp',
