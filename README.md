@@ -6,6 +6,7 @@
 
 ## ダウンロード
 
+* [バージョン 1.0.0 (2025/10/22)](https://github.com/movabletype/mt-plugin-periodic-sync/archive/1.0.0.zip)
 * [バージョン 0.1 (2019/09/20)](https://github.com/movabletype/mt-plugin-periodic-sync/archive/0.1.zip)
 * [バージョン 0.07 (2019/09/07)](https://github.com/movabletype/mt-plugin-periodic-sync/archive/0.07.zip)
 * [バージョン 0.06 (2019/09/06)](https://github.com/movabletype/mt-plugin-periodic-sync/archive/0.06.zip)
